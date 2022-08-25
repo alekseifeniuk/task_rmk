@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>Загрузка данных</title>
+</head>
+<body>
+    <form method="post">
+        <h4><div class="form-group">
+            <label>Укажите название хозяйства:</label>
+            <input type="text" name="name" value="{{ request.form['name'] }}">
+        </div></h4>
+
+        <h4><div class="form-group">
+            <label>Путь к файлу ***_volume.csv:</label>
+            <input type="file" name="volume" value="{{ request.form['volume'] }}">
+        </div></h4>
+
+        <h4><div class="form-group">
+            <label>Путь к файлу ***_machine.csv:</label>
+            <input type="file" name="machine" value="{{ request.form['machine'] }}">
+        </div></h4>
+
+        <div>
+            <button type="submit">Загрузить данные</button>
+        </div>
+    </form>
+</body>
+</html>

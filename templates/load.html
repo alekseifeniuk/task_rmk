@@ -6,24 +6,20 @@
 </head>
 <body>
     <form method="post">
-        <h4><div class="form-group">
-            <label>Укажите название хозяйства:</label>
-            <input type="text" name="name" value="{{ request.form['name'] }}">
-        </div></h4>
+        <p><label>Выберите название хозяйства:</label>
+        <select size="1"  name="manufacture">
+            <option value="asgard">Асгард</option>>
+            <option value="midgard">Мидгард</option>>
+            <option value="yotunhame">Йотунхейм</option>>
+        </select></p>
 
-        <h4><div class="form-group">
-            <label>Путь к файлу ***_volume.csv:</label>
-            <input type="file" name="volume" value="{{ request.form['volume'] }}">
-        </div></h4>
+        <p><label>Путь к файлу ***_volume.csv:</label>
+        <input type="file" name="volume" value="{{ request.form['volume'] }}"></p>
 
-        <h4><div class="form-group">
-            <label>Путь к файлу ***_machine.csv:</label>
-            <input type="file" name="machine" value="{{ request.form['machine'] }}">
-        </div></h4>
+        <p><label>Путь к файлу ***_machine.csv:</label>
+        <input type="file" name="machine" value="{{ request.form['machine'] }}"></p>
 
-        <div>
-            <button type="submit">Загрузить данные</button>
-        </div>
+        <p><button type="submit">Загрузить данные</button></p>
     </form>
 </body>
 </html>

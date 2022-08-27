@@ -5,13 +5,15 @@
     <title>Отчет</title>
 </head>
 <body>
-<select name="manufacture" size="1">
-    <option value="1">Асгард</option>>
-    <option value="2">Мидгард</option>>
-    <option value="3">Йотунхейм</option>>
-</select>
-<a href="{{ url_for('generate_report') }}">
-    <button type="button" >Сформировать отчет</button>
-<a>
+    <form method="post">
+        <select name="manufacture" size="1">
+            {% for name in names %}
+                <option value="{{ name }}">{{ name }}</option>>
+            {% endfor %}
+        </select>
+
+        <a href="{{ url_for('generate_report') }}">
+        <button type="submit" >Сформировать отчет</button></a>
+    </form>
 </body>
 </html>

@@ -1,7 +1,6 @@
 from psycopg2 import connect
 
 
-# Work with PostgreSQL
 def connect_db():
     conn = connect(
         user="zuba",
@@ -22,7 +21,6 @@ def disconnect_db(connection, cursor):
 def create_table(name: str):
     connection, cursor = connect_db()
     table = f'''CREATE TABLE {name} (
-        ID SERIAL PRIMARY KEY,
         date   VARCHAR,
         vehicle   VARCHAR,
         vehicle_number   VARCHAR,
@@ -51,7 +49,7 @@ def write_data_to_db(data: list, name: str):
     disconnect_db(connection, cursor)
 
 
-def get_table_names():
+def get_table_names() -> list:
     connection, cursor = connect_db()
     query = """SELECT table_name FROM information_schema.tables 
                 WHERE table_schema='public';"""
@@ -59,3 +57,11 @@ def get_table_names():
     tables = cursor.fetchall()
     disconnect_db(connection, cursor)
     return tables
+
+
+def get_table_content(name: str) -> list:
+    connection, cursor = connect_db()
+    cursor.execute(f"SELECT * FROM {name};")
+    raw_data = cursor.fetchall()
+    disconnect_db(connection, cursor)
+    return raw_data

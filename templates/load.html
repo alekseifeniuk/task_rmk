@@ -5,7 +5,7 @@
     <title>Загрузка данных</title>
 </head>
 <body>
-    <form method="post">
+    <form enctype="multipart/form-data" method="post">
         <p><label>Выберите название хозяйства:</label>
         <select size="1"  name="manufacture">
             <option value="asgard">Асгард</option>>
@@ -14,12 +14,15 @@
         </select></p>
 
         <p><label>Путь к файлу ***_volume.csv:</label>
-        <input type="file" name="volume" value="{{ request.form['volume'] }}"></p>
+        <input type="file" name="volume" value="{{ request.files['volume'] }}"></p>
 
         <p><label>Путь к файлу ***_machine.csv:</label>
-        <input type="file" name="machine" value="{{ request.form['machine'] }}"></p>
+        <input type="file" name="machine" value="{{ request.files['machine'] }}"></p>
 
         <p><button type="submit">Загрузить данные</button></p>
     </form>
+    {% for msg in get_flashed_messages() %}
+        <h4><div class="flash">{{ msg }}</div></h4>
+    {% endfor %}
 </body>
 </html>

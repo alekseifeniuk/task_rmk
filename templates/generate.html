@@ -6,14 +6,17 @@
 </head>
 <body>
     <form method="post">
-        <select name="manufacture" size="1">
+        <p><select name="manufacture" size="1">
+            <option disabled>Выберите хозяйство</option>
             {% for name in names %}
-                <option value="{{ name }}">{{ name }}</option>>
+            <option value="{{ name[0] }}">{{ name[1] }}</option>>
             {% endfor %}
         </select>
 
-        <a href="{{ url_for('generate_report') }}">
-        <button type="submit" >Сформировать отчет</button></a>
+        <button type="submit">Сформировать отчет</button></p>
     </form>
+    {% for msg in get_flashed_messages() %}
+        <h4><div class="flash">{{ msg }}</div></h4>
+    {% endfor %}
 </body>
 </html>

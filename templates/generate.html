@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="utf-8" />
-    <title>Отчет</title>
-</head>
-<body>
-    <form method="post">
-        <p><select name="manufacture" size="1">
-            <option disabled>Выберите хозяйство</option>
-            {% for name in names %}
-            <option value="{{ name[0] }}">{{ name[1] }}</option>>
-            {% endfor %}
-        </select>
+    <head>
+        <meta charset="utf-8" />
+        <title>Отчет</title>
+        <style>
+            select {
+                width: 150px;
+            }
+        </style>
+    </head>
+    <body>
+        <form method="post" action="{{ url_for('generate_report') }}">
+            <p>Выберите хозяйство <select name="manufacture" size="1">
+                {% for name in names %}
+                <option value="{{ name }}">{{ name }}</option>>
+                {% endfor %}
+            </select></p>
 
-        <button type="submit">Сформировать отчет</button></p>
-    </form>
-    {% for msg in get_flashed_messages() %}
+            <p>С: <input type="date" name="first_date">
+               По: <input type="date" name="last_date"></p>
+
+            <p><button type="submit">Сформировать отчет</button></p>
+        </form>
+        {% for msg in get_flashed_messages() %}
         <h4><div class="flash">{{ msg }}</div></h4>
-    {% endfor %}
-</body>
+        {% endfor %}
+    </body>
 </html>

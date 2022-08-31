@@ -15,6 +15,7 @@ from resources.sql_operations import (
     write_data_to_db,
     get_company_names,
     get_company_content,
+    get_table_content,
     SECRET_KEY,
 )
 from werkzeug.utils import secure_filename
@@ -28,19 +29,23 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = SECRET_KEY
 
 
-@app.route('/')
+@app.route('/', methods=('GET', 'POST'))
 def index():
+
     try:
         create_table()
     except (Exception, Error):
         pass
     finally:
         pass
-    return render_template('index.html')
+
+    names = get_company_names()
+    rows = get_table_content()
+    return render_template('index.html', names=names, rows=rows)
 
 
-@app.route('/load', methods=('GET', 'POST'))
-def load_data():
+@app.route('/upload', methods=('GET', 'POST'))
+def upload_data():
 
     if request.method == "POST":
         name = request.form.get('manufacture')
@@ -49,7 +54,7 @@ def load_data():
 
         if volume.filename == '' or machine.filename == '':
             flash("Не выбран один из файлов!")
-            return redirect(request.url)
+            return redirect(url_for('index'))
 
         if machine and volume:
             machine_filename = secure_filename(machine.filename)
@@ -60,23 +65,21 @@ def load_data():
             volume.save(volume_path)
             data_for_db = normalize_csv_data(volume_path, machine_path)
             write_data_to_db(data_for_db, name)
-            return redirect(url_for('index'))
 
-    return render_template('load.html')
+    return redirect(url_for('index'))
 
 
-@app.route("/generate", methods=('GET', 'POST'))
+@app.route('/report', methods=('GET', 'POST'))
 def generate_report():
-    names = get_company_names()
 
-    if request.method == "POST":
-        comp_name = request.form.get('manufacture')
-        first_date = request.form.get('first_date')
-        last_date = request.form.get('last_date')
+    if request.method == 'GET':
+        comp_name = request.args.get('man')
+        first_date = request.args.get('first_date')
+        last_date = request.args.get('last_date')
 
         if not comp_name:
             flash("В базе данных нет записей!")
-            return redirect(request.url)
+            return redirect(url_for('index'))
 
         if not first_date and not last_date:
             data = get_company_content(comp_name)
@@ -89,7 +92,5 @@ def generate_report():
             return redirect(url_for('index'))
 
         if not first_date or not last_date:
-            flash("""Неверно задан диапазон отображения записей!""")
-            return redirect(request.url)
-
-    return render_template('generate.html', names=names)
+            flash("Неверно задан диапазон отображения записей!")
+            return redirect(url_for('index'))

@@ -88,7 +88,9 @@ def get_company_content(name: str, first_date=None, last_date=None) -> list:
 
 def get_table_content() -> list:
     connection, cursor = connect_db()
-    cursor.execute("SELECT * FROM company_report;")
+    query = """SELECT date, vehicle, vehicle_number, square, scope_of_work 
+                FROM company_report;"""
+    cursor.execute(query)
     raw_data = cursor.fetchall()
     disconnect_db(connection, cursor)
     return raw_data

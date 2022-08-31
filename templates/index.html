@@ -5,11 +5,56 @@
         <title>Стартовая</title>
     </head>
     <body>
-        <h4>Добро пожаловать на стартовую страницу.</h4>
-        <a href="{{ url_for('load_data') }}">
-        <p><button type="button">Загрузить документы</button></p></a>
+        <h4>Загрузить документы в базу данных:</h4>
 
-        <a href="{{ url_for('generate_report') }}">
-        <p><button type="button">Сформировать отчет</button></p></a>
+        <form method="post" enctype="multipart/form-data" action="{{ url_for('upload_data') }}">
+             <p><label>Выберите название хозяйства:</label>
+            <select size="1" name="manufacture">
+                <option value="Асгард">Асгард</option>>
+                <option value="Мидгард">Мидгард</option>>
+                <option value="Йотунхейм">Йотунхейм</option>>
+            </select></p>
+
+            <p><label>Путь к файлу ***_volume.csv:</label>
+            <input type="file" name="volume" value="{{ request.files['volume'] }}"></p>
+
+            <p><label>Путь к файлу ***_machine.csv:</label>
+            <input type="file" name="machine" value="{{ request.files['machine'] }}"></p>
+
+            <p><button type="submit">Загрузить данные</button></p>
+        </form>
+
+        <h4>Отобразить дашборд и выгрузить данные:</h4>
+
+        <form method="get" action="{{ url_for('index') }}">
+            <p>Выберите хозяйство <select name="man" size="1">
+                {% for name in names %}
+                    <option value="{{ name }}">{{ name }}</option>>
+                {% endfor %}
+            </select>
+
+            С: <input type="date" name="first_date">
+            По: <input type="date" name="last_date">
+            <button type="submit">Дашборд</button>
+            <button type="submit" formaction="{{ url_for('generate_report') }}">Сформировать отчет</button></p>
+        </form>
+
+        {% for msg in get_flashed_messages() %}
+            <h4><div class="flash">{{ msg }}</div></h4>
+        {% endfor %}
+
+        <table align="center" border="1">
+            <tr>
+                <th>Дата</th>
+                <th>Техника</th>
+                <th>Номер техники</th>
+                <th>Площадь, га</th>
+                <th>Объем работ, м3</th>
+            </tr>
+            {% for row in rows %}
+            <tr><td>{{ row[0] }}</td><td>{{ row[1] }}</td><td>{{ row[2] }}</td><td>{{ row[3] }}</td><td>{{ row[4] }}</td></tr>
+            {% endfor %}
+        </table>
+
     </body>
 </html>

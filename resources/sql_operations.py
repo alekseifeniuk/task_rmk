@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from resources.file_operations import normalize_names
 import os
 
+# Importing data for connection
 load_dotenv()
 
 DB_ROLE = os.getenv('DB_ROLE')
@@ -13,6 +14,7 @@ DATABASE = os.getenv('DATABASE')
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 
+# Work with PostgreSQL
 def connect_db():
     conn = connect(
         user=DB_ROLE,
@@ -77,19 +79,27 @@ def get_company_content(name: str, first_date=None, last_date=None) -> list:
     query = f"""SELECT date, vehicle, vehicle_number, square, scope_of_work
                 FROM company_report WHERE company='{name}'
                 AND date BETWEEN '{first_date}' AND '{last_date}';"""
+
     if not first_date and not last_date:
         query = f"""SELECT date, vehicle, vehicle_number, square, scope_of_work
                     FROM company_report WHERE company='{name}';"""
+
     cursor.execute(query)
     raw_data = cursor.fetchall()
     disconnect_db(connection, cursor)
     return raw_data
 
 
-def get_table_content() -> list:
+def get_table_content(first_date=None, last_date=None) -> list:
     connection, cursor = connect_db()
-    query = """SELECT date, vehicle, vehicle_number, square, scope_of_work 
-                FROM company_report;"""
+    query = f"""SELECT date, vehicle, vehicle_number, square, scope_of_work
+                FROM company_report WHERE 
+                date BETWEEN '{first_date}' AND '{last_date}';"""
+
+    if not first_date and not last_date:
+        query = """SELECT date, vehicle, vehicle_number, square, scope_of_work 
+                    FROM company_report;"""
+
     cursor.execute(query)
     raw_data = cursor.fetchall()
     disconnect_db(connection, cursor)

@@ -16,18 +16,19 @@
             </select></p>
 
             <p><label>Путь к файлу ***_volume.csv:</label>
-            <input type="file" name="volume" value="{{ request.files['volume'] }}"></p>
+            <input type="file" required name="volume" value="{{ request.files['volume'] }}"></p>
 
             <p><label>Путь к файлу ***_machine.csv:</label>
-            <input type="file" name="machine" value="{{ request.files['machine'] }}"></p>
+            <input type="file" required name="machine" value="{{ request.files['machine'] }}"></p>
 
             <p><button type="submit">Загрузить данные</button></p>
         </form>
 
-        <h4>Отобразить дашборд и выгрузить данные:</h4>
+        <h4>Выгрузить отчет:</h4>
 
         <form method="get" action="{{ url_for('index') }}">
             <p>Выберите хозяйство <select name="man" size="1">
+                <option value="all">Все хозяйства</option>
                 {% for name in names %}
                     <option value="{{ name }}">{{ name }}</option>>
                 {% endfor %}
@@ -35,8 +36,8 @@
 
             С: <input type="date" name="first_date">
             По: <input type="date" name="last_date">
-            <button type="submit">Дашборд</button>
-            <button type="submit" formaction="{{ url_for('generate_report') }}">Сформировать отчет</button></p>
+            <button type="submit">Отобразить данные Онлайн</button>
+            <button type="submit" formaction="{{ url_for('generate_report') }}">Сформировать отчет в XLSX</button></p>
         </form>
 
         {% for msg in get_flashed_messages() %}

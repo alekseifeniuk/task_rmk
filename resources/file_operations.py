@@ -1,9 +1,9 @@
 from copy import deepcopy
 import csv
 import pandas
-import re
 
 
+# Work with CSV and XLS files
 def get_csv_data(file_path) -> iter:
     with open(file_path, encoding="utf-8-sig") as content:
         return list(csv.DictReader(content))

@@ -47,6 +47,16 @@ def create_table():
     disconnect_db(connection, cursor)
 
 
+def is_table_in_db() -> bool:
+    connection, cursor = connect_db()
+    query = """SELECT EXISTS (SELECT FROM pg_tables 
+                WHERE schemaname='public' AND tablename='company_report');"""
+    cursor.execute(query)
+    exists = cursor.fetchall()
+    disconnect_db(connection, cursor)
+    return bool(exists)
+
+
 def write_data_to_db(data: list, name: str):
     connection, cursor = connect_db()
     for row in data:

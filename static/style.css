@@ -1,0 +1,38 @@
+h4 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+  text-align: left;
+}
+
+table {
+  width: 100%;
+}
+
+.tbl-col {
+  width: 25%;
+  padding-left: 60px;
+  vertical-align: top;
+}
+
+.dash-table {
+  font-family: "Times New Roman", Times, serif;
+  width: 100%;
+  margin: auto;
+  border-collapse: collapse;
+}
+
+.dash-th {
+  font-weight: normal;
+  color: #191970;
+  padding: 10px 15px;
+}
+
+.dash-td {
+  color: #4169e1;
+  padding: 10px 15px;
+  text-align: center;
+}
+
+.dash-tr:nth-child(2n) {
+  background: #e8edff;
+}

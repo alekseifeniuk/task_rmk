@@ -1,61 +1,74 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        <meta charset="utf-8" />
-        <title>Стартовая</title>
-    </head>
-    <body>
-        <h4>Загрузить документы в базу данных:</h4>
-
-        <form method="post" enctype="multipart/form-data" action="{{ url_for('upload_data') }}">
-             <p><label>Выберите название хозяйства:</label>
-            <select size="1" name="manufacture">
-                <option value="Асгард">Асгард</option>>
-                <option value="Мидгард">Мидгард</option>>
-                <option value="Йотунхейм">Йотунхейм</option>>
+  <head>
+    <link rel="stylesheet" href="/static/style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Стартовая</title>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td class="tbl-col">
+          <form method="post" enctype="multipart/form-data" action="{{ url_for('upload_data') }}">
+            <h4>Загрузить данные:</h4>
+            <p><label>Название хозяйства:</label></p>
+            <p><select size="1" name="manufacture">
+              <option value="Асгард">Асгард</option>>
+              <option value="Мидгард">Мидгард</option>>
+              <option value="Йотунхейм">Йотунхейм</option>>
             </select></p>
-
-            <p><label>Путь к файлу ***_volume.csv:</label>
-            <input type="file" required name="volume" value="{{ request.files['volume'] }}"></p>
-
-            <p><label>Путь к файлу ***_machine.csv:</label>
-            <input type="file" required name="machine" value="{{ request.files['machine'] }}"></p>
-
+            <p><label>Отчет по объемам:</label></p>
+            <p><input type="file" required name="volume" value="{{ request.files['volume'] }}"></p>
+            <p><label>Отчет по транспорту:</label></p>
+            <p><input type="file" required name="machine" value="{{ request.files['machine'] }}"></p>
             <p><button type="submit">Загрузить данные</button></p>
-        </form>
-
-        <h4>Выгрузить отчет:</h4>
-
-        <form method="get" action="{{ url_for('index') }}">
-            <p>Выберите хозяйство <select name="man" size="1">
-                <option value="all">Все хозяйства</option>
-                {% for name in names %}
-                    <option value="{{ name }}">{{ name }}</option>>
-                {% endfor %}
-            </select>
-
-            С: <input type="date" name="first_date">
-            По: <input type="date" name="last_date">
-            <button type="submit">Отобразить данные Онлайн</button>
-            <button type="submit" formaction="{{ url_for('generate_report') }}">Сформировать отчет в XLSX</button></p>
-        </form>
-
-        {% for msg in get_flashed_messages() %}
-            <h4><div class="flash">{{ msg }}</div></h4>
-        {% endfor %}
-
-        <table align="center" border="1">
-            <tr>
-                <th>Дата</th>
-                <th>Техника</th>
-                <th>Номер техники</th>
-                <th>Площадь, га</th>
-                <th>Объем работ, м3</th>
+          </form>
+        </td>
+        <td>
+          <table class="dash-table">
+            <tr class="dash-tr">
+              <th class="dash-th">Дата</th>
+              <th class="dash-th">Техника</th>
+              <th class="dash-th">Номер техники</th>
+              <th class="dash-th">Площадь, га</th>
+              <th class="dash-th">Объем работ, м3</th>
             </tr>
             {% for row in rows %}
-            <tr><td>{{ row[0] }}</td><td>{{ row[1] }}</td><td>{{ row[2] }}</td><td>{{ row[3] }}</td><td>{{ row[4] }}</td></tr>
+              <tr class="dash-tr">
+                <td class="dash-td">{{ row[0] }}</td>
+                <td class="dash-td">{{ row[1] }}</td>
+                <td class="dash-td">{{ row[2] }}</td>
+                <td class="dash-td">{{ row[3] }}</td>
+                <td class="dash-td">{{ row[4] }}</td>
+              </tr>
             {% endfor %}
-        </table>
+          </table>
+        </td>
+        <td class="tbl-col">
+          <form method="get" action="{{ url_for('index') }}">
+            <h4>Выгрузить данные:</h4>
+            <p>Выберите хозяйство:</p>
+            <p><select name="man" size="1">
+              <option value="all" {% if comp_name=="all" %} selected {% endif %}>Все хозяйства</option>
+              {% for name in names %}
+                <option value="{{ name }}" {% if comp_name==name %} selected {% endif %}>{{ name }}</option>
+              {% endfor %}
+            </select></p>
 
-    </body>
+            <p>Укажите период:</p>
+            <p>С: <input type="date" name="first_date" value="{{ first_date }}">
+            По: <input type="date" name="last_date" value="{{ last_date }}"></p>
+
+            <p><button type="submit">Отобразить данные</button></p>
+            <p><button type="submit" formaction="{{ url_for('generate_report') }}">Сформировать отчет в XLSX</button></p>
+          </form>
+        </td>
+      </tr>
+    </table>
+
+    {% for msg in get_flashed_messages() %}
+      <div class="flash">{{ msg }}</div>
+    {% endfor %}
+
+  </body>
 </html>

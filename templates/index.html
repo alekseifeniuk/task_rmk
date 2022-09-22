@@ -6,6 +6,10 @@
     <title>Стартовая</title>
   </head>
   <body>
+    <header>
+      <div class="inline"><img src="/static/images/upload.png"></div>
+      <div class="inline">Добро пожаловать на страницу обработки документов</div>
+    </header>
     <table>
       <tr>
         <td class="tbl-col">
@@ -24,7 +28,7 @@
             <p><button type="submit">Загрузить данные</button></p>
           </form>
         </td>
-        <td>
+        <td class="tbl-col-center">
           <table class="dash-table">
             <tr class="dash-tr">
               <th class="dash-th">Дата</th>
@@ -56,8 +60,8 @@
             </select></p>
 
             <p>Укажите период:</p>
-            <p>С: <input type="date" name="first_date" value="{{ first_date }}">
-            По: <input type="date" name="last_date" value="{{ last_date }}"></p>
+            <p>С: <input type="date" name="first_date" value="{{ first_date }}"></p>
+            <p>По: <input type="date" name="last_date" value="{{ last_date }}"></p>
 
             <p><button type="submit">Отобразить данные</button></p>
             <p><button type="submit" formaction="{{ url_for('generate_report') }}">Сформировать отчет в XLSX</button></p>

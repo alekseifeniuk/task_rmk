@@ -88,10 +88,10 @@ def generate_report():
             data = get_company_content(comp_name, first_date, last_date)
             create_xlsx_report(data, comp_name, UPLOAD_FOLDER)
             return redirect(url_for("index"))
-        elif not all((first_date, last_date)):
-            data = get_company_content(comp_name)
-            create_xlsx_report(data, comp_name, UPLOAD_FOLDER)
+        elif not first_date or not last_date:
+            flash("Неверно задан диапазон отображения записей!")
             return redirect(url_for("index"))
         else:
-            flash("Неверно задан диапазон отображения записей!")
+            data = get_company_content(comp_name)
+            create_xlsx_report(data, comp_name, UPLOAD_FOLDER)
             return redirect(url_for("index"))
